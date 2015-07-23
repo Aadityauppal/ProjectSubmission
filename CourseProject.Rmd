@@ -129,9 +129,9 @@ Looking at how error rate behaves as the trees are built gives a good estimate o
 
 It is also useful to look at the important variables as per our model. We have plotted the top 10 variables which are important w.r.t. the mean decrease in accuracy and the mean decrease in Gini Index.
 
-![Error Rate plot](https://github.com/Aadityauppal/ProjectSubmission/blob/master/Error%20Rate%20Plot.png)
+[Error Rate plot](https://github.com/Aadityauppal/ProjectSubmission/blob/master/Error%20Rate%20Plot.png)
 
-![Variable Importance Plot](https://github.com/Aadityauppal/ProjectSubmission/blob/master/VariableImportancePlot.png)
+[Variable Importance Plot](https://github.com/Aadityauppal/ProjectSubmission/blob/master/VariableImportancePlot.png)
 
 ```{r, warning=FALSE, message=FALSE, eval = FALSE}
 ## Error rates plot
