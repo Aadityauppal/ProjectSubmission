@@ -131,13 +131,15 @@ It is also useful to look at the important variables as per our model. We have p
 
 [Error Rate plot](https://github.com/Aadityauppal/ProjectSubmission/blob/master/Error%20Rate%20Plot.png)
 
-[Variable Importance Plot](https://github.com/Aadityauppal/ProjectSubmission/blob/master/VariableImportancePlot.png)
-
-```{r plot, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
 ## Error rates plot
   plot(modRFfin, type = "l")
   legend("topright", colnames(modRFfin$err.rate), col=1:6, cex=0.8, fill=1:6)
+```
 
+[Variable Importance Plot](https://github.com/Aadityauppal/ProjectSubmission/blob/master/VariableImportancePlot.png)
+
+```{r, warning=FALSE, message=FALSE, eval=FALSE}
 ## Plotting variable importance
   varImpPlot(modRFfin, n.var = 10, scale = FALSE)
 ```
