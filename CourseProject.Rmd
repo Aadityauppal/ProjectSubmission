@@ -129,7 +129,7 @@ Looking at how error rate behaves as the trees are built gives a good estimate o
 
 It is also useful to look at the important variables as per our model. We have plotted the top 10 variables which are important w.r.t. the mean decrease in accuracy and the mean decrease in Gini Index.
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, eval = FALSE}
 ## Error rates plot
   plot(modRFfin, type = "l")
   legend("topright", colnames(modRFfin$err.rate), col=1:6, cex=0.8, fill=1:6)
