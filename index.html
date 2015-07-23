@@ -1,74 +1,66 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Projectsubmission : Machine Learning Project">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Projectsubmission</title>
+    <meta charset="UTF-8">
+    <title>Projectsubmission by Aadityauppal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Projectsubmission</h1>
+      <h2 class="project-tagline">Machine Learning Project</h2>
+      <a href="https://github.com/Aadityauppal/ProjectSubmission" class="btn">View on GitHub</a>
+      <a href="https://github.com/Aadityauppal/ProjectSubmission/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Aadityauppal/ProjectSubmission/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/Aadityauppal/ProjectSubmission">View on GitHub</a>
+    <section class="main-content">
+      <hr>
 
-          <h1 id="project_title">Projectsubmission</h1>
-          <h2 id="project_tagline">Machine Learning Project</h2>
+<p>title: "Predicting Activity Quality from Activity Monitors"
+author: "Aaditya Uppal"
+date: "Thursday, July 16, 2015"</p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/Aadityauppal/ProjectSubmission/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/Aadityauppal/ProjectSubmission/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <div id="header">
-<h1>
-<a id="predicting-activity-quality-from-activity-monitors" class="anchor" href="#predicting-activity-quality-from-activity-monitors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Predicting Activity Quality from Activity Monitors</h1>
-<h4>
-<a id="aaditya-uppal" class="anchor" href="#aaditya-uppal" aria-hidden="true"><span class="octicon octicon-link"></span></a><em>Aaditya Uppal</em>
-</h4>
-<h4>
-<a id="thursday-july-16-2015" class="anchor" href="#thursday-july-16-2015" aria-hidden="true"><span class="octicon octicon-link"></span></a><em>Thursday, July 16, 2015</em>
-</h4>
-</div>
+<h2>
+<a id="output-html_document" class="anchor" href="#output-html_document" aria-hidden="true"><span class="octicon octicon-link"></span></a>output: html_document</h2>
 
 <p>The goal of this assignment is to predict and classify the quality of exercise of 6 subjects based on 4 different activity monitors. A training dataset is available to build and train the predictive model and then make predictions on the test set.</p>
 
-<div id="reading-data">
 <h1>
 <a id="reading-data" class="anchor" href="#reading-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading Data</h1>
-<p>We first grab the training and test data provided for this assignment.</p>
-<pre><code>trainData &lt;- read.csv(file = "./pml-training.csv", header = TRUE, sep = ",", na.strings = "#DIV/0!")
-testData &lt;- read.csv(file = "./pml-testing.csv", header = TRUE, sep = ",", na.strings = "#DIV/0!")</code></pre>
-</div>
 
-<div id="back-up-of-raw-data">
+<p>We first grab the training and test data provided for this assignment.</p>
+
+<pre lang="r,"><code>trainData &lt;- read.csv(file = "./pml-training.csv", header = TRUE, sep = ",", na.strings = "#DIV/0!")
+testData &lt;- read.csv(file = "./pml-testing.csv", header = TRUE, sep = ",", na.strings = "#DIV/0!")
+</code></pre>
+
 <h1>
 <a id="back-up-of-raw-data" class="anchor" href="#back-up-of-raw-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Back up of Raw Data</h1>
-<p>Both the datasets are backed up for later use. As both the datasets are raw and need to be cleaned, it is helpful to backup the datasets as you’ll see.</p>
-<pre><code>trainDataRD &lt;- trainData
-testDataRD &lt;- testData</code></pre>
-</div>
 
-<div id="identifying-variables-not-required-for-prediction">
+<p>Both the datasets are backed up for later use. As both the datasets are raw and need to be cleaned, it is helpful to backup the datasets as you'll see.</p>
+
+<pre lang="r,"><code>trainDataRD &lt;- trainData
+testDataRD &lt;- testData
+</code></pre>
+
 <h1>
 <a id="identifying-variables-not-required-for-prediction" class="anchor" href="#identifying-variables-not-required-for-prediction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Identifying variables not required for prediction</h1>
+
 <p>A quick look into the data shows there are 160 variables. 38 different readings for each sensor account for 152(38*4) variables. Not all the variables may be required for building the model. The monitors data is recorded into 152 variables. The 1st 7 variables have information specific to the subject or the timestamp at which data was recorded. These variables are not needed for building the model and prediction. We drop these variables and do not include them any further.</p>
-<pre><code>library(dplyr)
+
+<pre lang="r,"><code>library(dplyr)
 trainData &lt;- select(trainData, -c(1:7))
-testData &lt;- select(testData, -c(1:7))</code></pre>
+testData &lt;- select(testData, -c(1:7))
+</code></pre>
+
 <p>While checking the data for missing values, we observe that lot of variables have missing values or other strings recorded as NAs. We first attempt to understand which variables and what percentage of them constitute NAs and then decide how to tackle the NA imputation.</p>
-<pre><code># Converting all variables into numeric class to identify missing values.
+
+<pre lang="r,"><code># Converting all variables into numeric class to identify missing values.
   trainData[, 1:152] &lt;- sapply(trainData[, 1:152], function(x) as.numeric(as.character(x)))
   testData[, 1:152] &lt;- sapply(testData[, 1:152], function(x) as.numeric(as.character(x)))
 # Summation of observations for each variable
@@ -102,9 +94,8 @@ testData &lt;- select(testData, -c(1:7))</code></pre>
 
 # Separating the variables containing NAs to check %age of NA values
   dtySet &lt;- trainData[, varIndNA]
-  sum(is.na(dtySet)) / (dim(dtySet)[1] * dim(dtySet)[2]) </code></pre>
-<pre><code>## [1] 0.9798869</code></pre>
-<pre><code>## Returns 98% NAs in total
+  sum(is.na(dtySet)) / (dim(dtySet)[1] * dim(dtySet)[2]) 
+## Returns 98% NAs in total
   propNNAs &lt;- apply(dtySet, 2, function(x) sum(!is.na(x))/length(x))
 #  max(propNNAs) 
 ## not more than 2% values Non-NAs for any of the variables
@@ -113,15 +104,17 @@ testData &lt;- select(testData, -c(1:7))</code></pre>
 
 # Separating the variables containing NAs to check %age of NA values in the test set
   dtySetTst &lt;- testData[, varIndNAtest]
-  sum(is.na(dtySetTst)) / (dim(dtySetTst)[1] * dim(dtySetTst)[2]) </code></pre>
-<pre><code>## [1] 1</code></pre>
-<pre><code>## Returns 100% NAs
+  sum(is.na(dtySetTst)) / (dim(dtySetTst)[1] * dim(dtySetTst)[2]) 
+## Returns 100% NAs
 # We can remove these variables to get a cleaner dataset containing 52 variables and the problem id for the test set
   clnSetTst &lt;- testData[, -varIndNAtest]
 
-## Imputation is not carried out for NAs as large number of similar values in each variable will introduce bias</code></pre>
+## Imputation is not carried out for NAs as large number of similar values in each variable will introduce bias
+</code></pre>
+
 <p>The subsetting is now applied on the backed up raw datasets to obtain the cleaner dataset. The dataset used for building the model contains 52 variables and the classifier outcome.</p>
-<pre><code>library(dplyr)
+
+<pre lang="r,"><code>library(dplyr)
   trnDat &lt;- select(trainDataRD, -c(1:7))
   tstDat &lt;- select(testDataRD, -c(1:7))
 
@@ -129,59 +122,54 @@ testData &lt;- select(testData, -c(1:7))</code></pre>
   tstDat &lt;- tstDat[, -varIndNAall]
 
   trnDat &lt;- trnDat[, -varIndNA]
-  tstDat &lt;- tstDat[, -varIndNAtest]</code></pre>
-</div>
+  tstDat &lt;- tstDat[, -varIndNAtest]
+</code></pre>
 
-<div id="building-the-prediction-model">
 <h1>
 <a id="building-the-prediction-model" class="anchor" href="#building-the-prediction-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the Prediction model</h1>
+
 <p><em>Classification Trees and Random Forests are suitable for building prediction models for classification based outcomes</em>. For this assignment, Random forests is used as it provides high accuracy and can handle large number of variables without variable deletion.</p>
-<p>‘randomForest’ is the function used to implement this task. The arguments provided to the randomForest function are the number of trees to be grown, number of variables randomly sampled at each split and the importance of predictors.</p>
-<p>Number of trees can be set even higher but the error rates are more or less constant beyond 100 trees. Even with mtry = 3 pretty high accuracy is achieved. We want the importance of predictors to be assessed so setting the ‘importance’ argument as TRUE.</p>
-<pre><code>library(randomForest)
+
+<p>'randomForest' is the function used to implement this task. The arguments provided to the randomForest function are the number of trees to be grown, number of variables randomly sampled at each split and the importance of predictors. </p>
+
+<p>Number of trees can be set even higher but the error rates are more or less constant beyond 100 trees. Even with mtry = 3 pretty high accuracy is achieved. We want the importance of predictors to be assessed so setting the 'importance' argument as TRUE. </p>
+
+<pre lang="r,"><code>library(randomForest)
   set.seed(1234)
   modRFfin &lt;- randomForest(classe ~ ., data = trnDat, ntree = 100, mtry = 3, importance = TRUE)
-  modRFfin</code></pre>
-<pre><code>## 
-## Call:
-##  randomForest(formula = classe ~ ., data = trnDat, ntree = 100,      mtry = 3, importance = TRUE) 
-##                Type of random forest: classification
-##                      Number of trees: 100
-## No. of variables tried at each split: 3
-## 
-##         OOB estimate of  error rate: 0.45%
-## Confusion matrix:
-##      A    B    C    D    E  class.error
-## A 5578    2    0    0    0 0.0003584229
-## B   17 3776    4    0    0 0.0055306821
-## C    0   14 3404    4    0 0.0052600818
-## D    0    0   35 3177    4 0.0121268657
-## E    0    0    1    7 3599 0.0022179096</code></pre>
-</div>
+  modRFfin
+</code></pre>
 
-<div id="cross-validation-and-out-of-sample-error">
 <h1>
 <a id="cross-validation-and-out-of-sample-error" class="anchor" href="#cross-validation-and-out-of-sample-error" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cross-validation and Out of sample error</h1>
-<p>Each tree in a random forest is constructed using a different bootstrap sample from the original data. About one-third of the cases are left out of the bootstrap sample and not used in the construction of the kth tree. Hence, <strong>there is no need of cross-validation when using random forests</strong>. The out of bag (OOB) error rate is the estimate on the out of bag samples. In this way, a test set classification is obtained for each case in about one-third of the trees. So <strong>the OOB error rate is an unbiased estimate of the test set error</strong>. Based on our model, <strong>the expected out of sample error is less than 0.5%</strong>.</p>
-</div>
 
-<div id="error-rate-and-variable-importance-plots">
+<p>Each tree in a random forest is constructed using a different bootstrap sample from the original data. About one-third of the cases are left out of the bootstrap sample and not used in the construction of the kth tree. Hence, <strong>there is no need of cross-validation when using random forests</strong>. The out of bag (OOB) error rate is the estimate on the out of bag samples. In this way, a test set classification is obtained for each case in about one-third of the trees. So <strong>the OOB error rate is an unbiased estimate of the test set error</strong>. Based on our model, <strong>the expected out of sample error is less than 0.5%</strong>. </p>
+
 <h1>
 <a id="error-rate-and-variable-importance-plots" class="anchor" href="#error-rate-and-variable-importance-plots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error rate and Variable Importance plots</h1>
+
 <p>Looking at how error rate behaves as the trees are built gives a good estimate of whether the solution is converging. We plot the error rates here and find that error rates for each of the outcome is close to 1% at around the 30th tree. OOB error rate is also plotted alongwith the error rate for each outcome.</p>
+
 <p>It is also useful to look at the important variables as per our model. We have plotted the top 10 variables which are important w.r.t. the mean decrease in accuracy and the mean decrease in Gini Index.</p>
-<pre><code>## Error rates plot
+
+<p><img src="https://github.com/Aadityauppal/ProjectSubmission/blob/master/Error%20Rate%20Plot.png" alt="Error Rate plot"></p>
+
+<p><img src="https://github.com/Aadityauppal/ProjectSubmission/blob/master/VariableImportancePlot.png" alt="Variable Importance Plot"></p>
+
+<pre lang="r,"><code>## Error rates plot
   plot(modRFfin, type = "l")
-  legend("topright", colnames(modRFfin$err.rate), col=1:6, cex=0.8, fill=1:6)</code></pre>
-<p><img title alt width="672"></p>
-<pre><code>## Plotting variable importance
-  varImpPlot(modRFfin, n.var = 10, scale = FALSE)</code></pre>
-<p><img title alt width="672"></p>
-<div id="submission-for-test-data">
+  legend("topright", colnames(modRFfin$err.rate), col=1:6, cex=0.8, fill=1:6)
+
+## Plotting variable importance
+  varImpPlot(modRFfin, n.var = 10, scale = FALSE)
+</code></pre>
+
 <h2>
 <a id="submission-for-test-data" class="anchor" href="#submission-for-test-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Submission for test data</h2>
+
 <p>The model is applied to the test cases to predict the outcomes using the predict function as shown below. <strong>Correct outcomes are predicted for each test case</strong>.</p>
-<pre><code>ans &lt;- predict(modRFfin, newdata = tstDat[, -53])
+
+<pre lang="r,"><code>ans &lt;- predict(modRFfin, newdata = tstDat[, -53])
 
 pml_write_files = function(x){
   n = length(x)
@@ -191,39 +179,23 @@ pml_write_files = function(x){
   }
 }
 
-pll_write_files(ans)</code></pre>
-</div>
+pll_write_files(ans)
+</code></pre>
 
-<div id="conclusions">
 <h2>
 <a id="conclusions" class="anchor" href="#conclusions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusions</h2>
+
 <p><em>A robust model was built using Random Forests and found to predict correctly on the test cases. Using this model, the expected out of sample error is less than 0.5%</em></p>
-</div>
 
-<p></p>
-</div>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Aadityauppal/ProjectSubmission">Projectsubmission</a> is maintained by <a href="https://github.com/Aadityauppal">Aadityauppal</a>.</span>
 
-<p></p>
-
-
-
-
-
-
-
-<p></p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Projectsubmission maintained by <a href="https://github.com/Aadityauppal">Aadityauppal</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
+
