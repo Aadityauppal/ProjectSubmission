@@ -31,19 +31,21 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <hr>
+        <h1>
+<a id="predicting-activity-quality-from-activity-monitors" class="anchor" href="#predicting-activity-quality-from-activity-monitors" aria-hidden="true"><span class="octicon octicon-link"></span></a>"Predicting Activity Quality from Activity Monitors"</h1>
 
-<p>title: "Predicting Activity Quality from Activity Monitors"
-author: "Aaditya Uppal"
-date: "Thursday, July 16, 2015"</p>
+<h1>
+<a id="aaditya-uppal" class="anchor" href="#aaditya-uppal" aria-hidden="true"><span class="octicon octicon-link"></span></a>"Aaditya Uppal"</h1>
 
-<h2>
-<a id="output-html_document" class="anchor" href="#output-html_document" aria-hidden="true"><span class="octicon octicon-link"></span></a>output: html_document</h2>
+<h1>
+<a id="thursday-july-23-2015" class="anchor" href="#thursday-july-23-2015" aria-hidden="true"><span class="octicon octicon-link"></span></a>"Thursday, July 23, 2015"</h1>
+
+<hr>
 
 <p>The goal of this assignment is to predict and classify the quality of exercise of 6 subjects based on 4 different activity monitors. A training dataset is available to build and train the predictive model and then make predictions on the test set.</p>
 
-<h1>
-<a id="reading-data" class="anchor" href="#reading-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading Data</h1>
+<h2>
+<a id="reading-data" class="anchor" href="#reading-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading Data</h2>
 
 <p>We first grab the training and test data provided for this assignment.</p>
 
@@ -51,8 +53,8 @@ date: "Thursday, July 16, 2015"</p>
 testData &lt;- read.csv(file = "./pml-testing.csv", header = TRUE, sep = ",", na.strings = "#DIV/0!")
 </code></pre>
 
-<h1>
-<a id="back-up-of-raw-data" class="anchor" href="#back-up-of-raw-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Back up of Raw Data</h1>
+<h2>
+<a id="back-up-of-raw-data" class="anchor" href="#back-up-of-raw-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Back up of Raw Data</h2>
 
 <p>Both the datasets are backed up for later use. As both the datasets are raw and need to be cleaned, it is helpful to backup the datasets as you'll see.</p>
 
@@ -60,8 +62,8 @@ testData &lt;- read.csv(file = "./pml-testing.csv", header = TRUE, sep = ",", na
 testDataRD &lt;- testData
 </code></pre>
 
-<h1>
-<a id="identifying-variables-not-required-for-prediction" class="anchor" href="#identifying-variables-not-required-for-prediction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Identifying variables not required for prediction</h1>
+<h2>
+<a id="identifying-variables-not-required-for-prediction" class="anchor" href="#identifying-variables-not-required-for-prediction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Identifying variables not required for prediction</h2>
 
 <p>A quick look into the data shows there are 160 variables. 38 different readings for each sensor account for 152(38*4) variables. Not all the variables may be required for building the model. The monitors data is recorded into 152 variables. The 1st 7 variables have information specific to the subject or the timestamp at which data was recorded. These variables are not needed for building the model and prediction. We drop these variables and do not include them any further.</p>
 
@@ -137,8 +139,8 @@ testData &lt;- select(testData, -c(1:7))
   tstDat &lt;- tstDat[, -varIndNAtest]
 </code></pre>
 
-<h1>
-<a id="building-the-prediction-model" class="anchor" href="#building-the-prediction-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the Prediction model</h1>
+<h2>
+<a id="building-the-prediction-model" class="anchor" href="#building-the-prediction-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the Prediction model</h2>
 
 <p><em>Classification Trees and Random Forests are suitable for building prediction models for classification based outcomes</em>. For this assignment, Random forests is used as it provides high accuracy and can handle large number of variables without variable deletion.</p>
 
@@ -152,13 +154,13 @@ testData &lt;- select(testData, -c(1:7))
   modRFfin
 </code></pre>
 
-<h1>
-<a id="cross-validation-and-out-of-sample-error" class="anchor" href="#cross-validation-and-out-of-sample-error" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cross-validation and Out of sample error</h1>
+<h2>
+<a id="cross-validation-and-out-of-sample-error" class="anchor" href="#cross-validation-and-out-of-sample-error" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cross-validation and Out of sample error</h2>
 
 <p>Each tree in a random forest is constructed using a different bootstrap sample from the original data. About one-third of the cases are left out of the bootstrap sample and not used in the construction of the kth tree. Hence, <strong>there is no need of cross-validation when using random forests</strong>. The out of bag (OOB) error rate is the estimate on the out of bag samples. In this way, a test set classification is obtained for each case in about one-third of the trees. So <strong>the OOB error rate is an unbiased estimate of the test set error</strong>. Based on our model, <strong>the expected out of sample error is less than 0.5%</strong>. </p>
 
-<h1>
-<a id="error-rate-and-variable-importance-plots" class="anchor" href="#error-rate-and-variable-importance-plots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error rate and Variable Importance plots</h1>
+<h2>
+<a id="error-rate-and-variable-importance-plots" class="anchor" href="#error-rate-and-variable-importance-plots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error rate and Variable Importance plots</h2>
 
 <p>Looking at how error rate behaves as the trees are built gives a good estimate of whether the solution is converging. We plot the error rates here and find that error rates for each of the outcome is close to 1% at around the 30th tree. OOB error rate is also plotted alongwith the error rate for each outcome.</p>
 
